@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-ai-vertex
+  ai:
+    vertex:
+      ai:
+        gemini:
+          project-id: spring-ai-490523
+          location: us-central1
+          credentials-uri: 'classpath:credentials.json'
+          chat:
+            options:
+              model: gemini-2.5-flash
+          transport: REST
+
+debug: true
