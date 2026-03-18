@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VertexAiServiceImpl implements VertexAiService {
 
-  private final ChatModel chatModel; // Use ChatModel para chamadas diretas
+  private final ChatModel chatModel;
 
   public VertexAiServiceImpl(ChatModel chatModel) {
     this.chatModel = chatModel;
@@ -25,11 +25,8 @@ public class VertexAiServiceImpl implements VertexAiService {
   public String getAnswer(String question) {
     PromptTemplate promptTemplate = new PromptTemplate(question);
     Prompt prompt = promptTemplate.create();
-
-    // No ChatModel, o metodo call() ainda funciona como você espera
     ChatResponse response = chatModel.call(prompt);
 
-    // No output, use getContent() ou getText() dependendo da versão exata
     return response.getResult().getOutput().getText();
   }
 
