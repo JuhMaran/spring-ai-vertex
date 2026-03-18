@@ -9,11 +9,9 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 import java.util.Objects;
@@ -26,9 +24,6 @@ import java.util.Objects;
  */
 @Service
 public class VertexAiServiceImpl implements VertexAiService {
-
-  @Autowired
-  ObjectMapper objectMapper;
 
   private final ChatModel chatModel;
 
