@@ -23,6 +23,11 @@ public class QuestionController {
     this.vertexAiService = vertexAiService;
   }
 
+  @PostMapping("/capitalWithInfo")
+  public Answer getCapitalWithInfo(@RequestBody GetCapitalRequest getCapitalRequest) {
+    return this.vertexAiService.getCapitalWithInfo(getCapitalRequest);
+  }
+
   @PostMapping("/capital")
   public Answer getCapital(@RequestBody GetCapitalRequest getCapitalRequest) {
     return this.vertexAiService.getCapital(getCapitalRequest);

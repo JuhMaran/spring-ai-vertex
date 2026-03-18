@@ -12,6 +12,8 @@ import com.juhmaran.springaivertex.model.Question;
  */
 public interface VertexAiService {
 
+  Answer getCapitalWithInfo(GetCapitalRequest getCapitalRequest);
+
   Answer getCapital(GetCapitalRequest getCapitalRequest);
 
   Answer getAnswer(Question question);
