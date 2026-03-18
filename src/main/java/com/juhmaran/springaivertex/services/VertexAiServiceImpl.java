@@ -1,6 +1,7 @@
 package com.juhmaran.springaivertex.services;
 
 import com.juhmaran.springaivertex.model.Answer;
+import com.juhmaran.springaivertex.model.GetCapitalRequest;
 import com.juhmaran.springaivertex.model.Question;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -8,10 +9,11 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
- * spring-ai-vertex
+ * Service Implementation
  *
  * @author Juliane Maran
  * @since 17/03/2026
@@ -23,6 +25,15 @@ public class VertexAiServiceImpl implements VertexAiService {
 
   public VertexAiServiceImpl(ChatModel chatModel) {
     this.chatModel = chatModel;
+  }
+
+  @Override
+  public Answer getCapital(GetCapitalRequest getCapitalPrompt) {
+    PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt.stateOrCountry());
+    Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalPrompt.stateOrCountry()));
+    ChatResponse response = chatModel.call(prompt);
+
+    return new Answer(Objects.requireNonNull(response.getResult()).getOutput().getText());
   }
 
   @Override
