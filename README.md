@@ -16,9 +16,11 @@ O projeto utiliza as versões mais recentes do ecossistema Java para garantir su
 
 * **Java 25 (LTS)**
 * **Spring Boot 4.0.3**
+    * Atualizado para a versão **4.1.0-SNAPSHOT**
 * **Spring Framework 7**
 * **Spring WebMVC**
 * **Spring AI 2.0.0-M2** (BOM para gestão de dependências)
+    * Atualizado para a **versão 2.0.0-M3** (lançamento em 16/03/2026)
 * **Google Vertex AI Gemini 2.5 Flash**
 * **Protocolo de Transporte:** REST
 
