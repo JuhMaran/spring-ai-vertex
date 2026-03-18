@@ -12,7 +12,7 @@ class VertexAiServiceImplTest {
 
   @Test
   void getAnswer() {
-    String answer = vertexAiService.getAnswer("Olá, conte uma piada!");
+    String answer = vertexAiService.getAnswer("Question");
     System.out.println("### Answer ###");
     System.out.println(answer);
   }
