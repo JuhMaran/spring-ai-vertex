@@ -12,7 +12,8 @@ class VertexAiServiceImplTest {
 
   @Test
   void getAnswer() {
-    String answer = vertexAiService.getAnswer("Write a python script to output numbers from 1 to 100.");
-    System.out.println("Answer: " + answer);
+    String answer = vertexAiService.getAnswer("Olá, como você pode me ajudar?");
+    System.out.println("### Answer ###");
+    System.out.println(answer);
   }
 }
