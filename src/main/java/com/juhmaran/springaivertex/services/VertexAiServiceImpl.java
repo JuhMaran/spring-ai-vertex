@@ -54,9 +54,6 @@ public class VertexAiServiceImpl implements VertexAiService {
   @Override
   public GetCapitalResponse getCapital(GetCapitalRequest getCapitalRequest) {
 
-    // No curso utiliza o BeanOutputParser, mas na nova versão do Spring AI passou a ser deprecated
-    // BeanOutputParser<GetCapitalRequest> parser = BeanOutputParser<>(GetCapitalRequest.class);
-
     BeanOutputConverter<GetCapitalResponse> converter = new BeanOutputConverter<>(GetCapitalResponse.class);
     String format = converter.getFormat();
     System.out.println("Format: \n" + format);
@@ -67,21 +64,8 @@ public class VertexAiServiceImpl implements VertexAiService {
       "format", format));
     ChatResponse response = chatModel.call(prompt);
 
-//    System.out.println(Objects.requireNonNull(response.getResult()).getOutput().getText());
+    return converter.convert(Objects.requireNonNull(Objects.requireNonNull(response.getResult()).getOutput().getText()));
 
-    return converter.convert(Objects.requireNonNull(response.getResult().getOutput().getText()));
-
-//    String responseString;
-//
-//    try {
-//      JsonNode jsonNode = objectMapper.readTree(response.getResult().getOutput().getText());
-//      responseString = jsonNode.get("answer").asString();
-//    } catch (JacksonException e) {
-//      throw new RuntimeException(e);
-//    }
-//
-//    return new Answer(responseString);
-    //return new Answer(response.getResult().getOutput().getText());
   }
 
   @Override

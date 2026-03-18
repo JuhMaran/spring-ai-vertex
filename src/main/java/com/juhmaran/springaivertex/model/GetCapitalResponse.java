@@ -10,5 +10,3 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
  */
 public record GetCapitalResponse(@JsonPropertyDescription("This is the city name") String answer) {
 }
-
-// Vinculando a resposta do Vertex AI Gemini ao esquema JSON
