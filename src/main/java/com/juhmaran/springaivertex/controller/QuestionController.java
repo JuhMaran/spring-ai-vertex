@@ -1,9 +1,6 @@
 package com.juhmaran.springaivertex.controller;
 
-import com.juhmaran.springaivertex.model.Answer;
-import com.juhmaran.springaivertex.model.GetCapitalRequest;
-import com.juhmaran.springaivertex.model.GetCapitalResponse;
-import com.juhmaran.springaivertex.model.Question;
+import com.juhmaran.springaivertex.model.*;
 import com.juhmaran.springaivertex.services.VertexAiService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +22,7 @@ public class QuestionController {
   }
 
   @PostMapping("/capitalWithInfo")
-  public Answer getCapitalWithInfo(@RequestBody GetCapitalRequest getCapitalRequest) {
+  public GetCapitalWithInfoResponse getCapitalWithInfo(@RequestBody GetCapitalRequest getCapitalRequest) {
     return this.vertexAiService.getCapitalWithInfo(getCapitalRequest);
   }
 

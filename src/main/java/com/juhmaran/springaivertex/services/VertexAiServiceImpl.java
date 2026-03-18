@@ -1,17 +1,16 @@
 package com.juhmaran.springaivertex.services;
 
-import com.juhmaran.springaivertex.model.Answer;
-import com.juhmaran.springaivertex.model.GetCapitalRequest;
-import com.juhmaran.springaivertex.model.GetCapitalResponse;
-import com.juhmaran.springaivertex.model.Question;
+import com.juhmaran.springaivertex.model.*;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 import java.util.Objects;
@@ -25,11 +24,10 @@ import java.util.Objects;
 @Service
 public class VertexAiServiceImpl implements VertexAiService {
 
-  private final ChatModel chatModel;
+  @Autowired
+  ObjectMapper objectMapper;
 
-  public VertexAiServiceImpl(ChatModel chatModel) {
-    this.chatModel = chatModel;
-  }
+  private final ChatModel chatModel;
 
   @Value("classpath:templates/get-capital-prompt.st")
   private Resource getCapitalPrompt;
@@ -37,13 +35,24 @@ public class VertexAiServiceImpl implements VertexAiService {
   @Value("classpath:templates/get-capital-with-info.st")
   private Resource getCapitalPromptWithInfo;
 
+  public VertexAiServiceImpl(ChatModel chatModel) {
+    this.chatModel = chatModel;
+  }
+
   @Override
-  public Answer getCapitalWithInfo(GetCapitalRequest getCapitalRequest) {
+  public GetCapitalWithInfoResponse getCapitalWithInfo(GetCapitalRequest getCapitalRequest) {
+
+    BeanOutputConverter<GetCapitalWithInfoResponse> converter = new BeanOutputConverter<>(GetCapitalWithInfoResponse.class);
+    String format = converter.getFormat();
+
     PromptTemplate promptTemplate = new PromptTemplate(getCapitalPromptWithInfo);
-    Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry()));
+    Prompt prompt = promptTemplate.create(Map.of(
+      "stateOrCountry", getCapitalRequest.stateOrCountry(),
+      "format", format));
+
     ChatResponse response = chatModel.call(prompt);
 
-    return new Answer(Objects.requireNonNull(response.getResult()).getOutput().getText());
+    return converter.convert(Objects.requireNonNull(response.getResult().getOutput().getText()));
   }
 
   @Override
@@ -51,15 +60,15 @@ public class VertexAiServiceImpl implements VertexAiService {
 
     BeanOutputConverter<GetCapitalResponse> converter = new BeanOutputConverter<>(GetCapitalResponse.class);
     String format = converter.getFormat();
-    System.out.println("Format: \n" + format);
 
     PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
     Prompt prompt = promptTemplate.create(Map.of(
       "stateOrCountry", getCapitalRequest.stateOrCountry(),
       "format", format));
+
     ChatResponse response = chatModel.call(prompt);
 
-    return converter.convert(Objects.requireNonNull(Objects.requireNonNull(response.getResult()).getOutput().getText()));
+    return converter.convert(Objects.requireNonNull(response.getResult().getOutput().getText()));
 
   }
 
@@ -71,7 +80,7 @@ public class VertexAiServiceImpl implements VertexAiService {
     Prompt prompt = promptTemplate.create();
     ChatResponse response = chatModel.call(prompt);
 
-    return new Answer(Objects.requireNonNull(response.getResult()).getOutput().getText());
+    return new Answer(response.getResult().getOutput().getText());
   }
 
   @Override
@@ -80,7 +89,7 @@ public class VertexAiServiceImpl implements VertexAiService {
     Prompt prompt = promptTemplate.create();
     ChatResponse response = chatModel.call(prompt);
 
-    return Objects.requireNonNull(response.getResult()).getOutput().getText();
+    return response.getResult().getOutput().getText();
   }
 
 }

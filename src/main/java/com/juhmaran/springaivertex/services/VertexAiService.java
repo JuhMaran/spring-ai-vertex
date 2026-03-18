@@ -1,9 +1,6 @@
 package com.juhmaran.springaivertex.services;
 
-import com.juhmaran.springaivertex.model.Answer;
-import com.juhmaran.springaivertex.model.GetCapitalRequest;
-import com.juhmaran.springaivertex.model.GetCapitalResponse;
-import com.juhmaran.springaivertex.model.Question;
+import com.juhmaran.springaivertex.model.*;
 
 /**
  * Service
@@ -13,12 +10,11 @@ import com.juhmaran.springaivertex.model.Question;
  */
 public interface VertexAiService {
 
-  Answer getCapitalWithInfo(GetCapitalRequest getCapitalRequest);
+  GetCapitalWithInfoResponse getCapitalWithInfo(GetCapitalRequest getCapitalRequest);
 
   GetCapitalResponse getCapital(GetCapitalRequest getCapitalRequest);
 
-  Answer getAnswer(Question question);
-
   String getAnswer(String question);
 
+  Answer getAnswer(Question question);
 }

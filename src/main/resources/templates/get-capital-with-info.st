@@ -1,6 +1,13 @@
-What is the capital of {stateOrCountry}? Respond with the following format:
-           The capital of ```stateOrCountry``` is ```capital```.
-           The city has a population of ```population```.
-           The city is located in ```region```.
-           The primary language spoken is ```language```.
-           The currency used is ```currency```.
+Answer the following question.
+
+{format}
+
+Return ONLY a valid JSON object.
+Do not include explanations, comments, or markdown formatting.
+
+Question: What is the capital of {stateOrCountry} and provide the following fields:
+- city
+- population
+- region
+- language
+- currency
