@@ -1,56 +1,56 @@
-# Spring AI Vertex Gemini Integration
+# 🤖 Spring AI Vertex - Gemini (Google Cloud)
 
-Este repositório contém uma aplicação técnica desenvolvida para o estudo e implementação do ecossistema **Spring AI**, utilizando o modelo **Gemini 2.5 Flash** através do **Google Cloud Vertex AI**. O objetivo principal é demonstrar a integração de _Large Language Models_ (LLMs) em aplicações Java modernas, explorando recursos de prompt templating e conversão de saídas estruturadas para objetos Java (POJOs/Records)
+![Java](https://img.shields.io/badge/Java-25-blue)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0--SNAPSHOT-brightgreen)
+![Spring AI](https://img.shields.io/badge/Spring%20AI-2.0.0--M3-purple)
+![Vertex AI](https://img.shields.io/badge/Google%20Vertex%20AI-Gemini-orange)
+![Status](https://img.shields.io/badge/status-concluído-success)
 
-## Fluxo da Arquitetura
+## 📌 Descrição
 
-O diagrama abaixo ilustra o fluxo de requisição da aplicação, desde o cliente até a obtenção da resposta processada pela inteligência artificial:
+O **Spring AI Vertex** é uma aplicação de exemplo que demonstra a integração entre **Spring AI** e o **Google Vertex
+AI (Gemini)**.
 
-```mermaid
-graph TD
-    A[Client / Postman] -->|HTTP POST| B[QuestionController]
-    B --> C[VertexAiService]
-    C --> D[Spring AI Framework]
-    D --> E{Vertex AI Gemini}
-    E -->|Response| D
-    D -->|BeanOutputConverter| C
-    C -->|Mapped Record| B
-    B -->|JSON| A
+O projeto foi desenvolvido com foco educacional e prático, com o objetivo de mostrar como:
+
+- Integrar aplicações Spring com modelos Gemini
+- Utilizar prompts dinâmicos com templates
+- Converter respostas da IA em objetos Java tipados
+- Trabalhar com respostas estruturadas em JSON
+
+## 🚀 Funcionalidades
+
+- 🤖 Integração com **Google Vertex AI (Gemini)**
+- 🧠 Geração de respostas baseadas em IA
+- 🌍 Consulta de capitais de países/estados
+- 📊 Retorno estruturado com informações completas:
+    - Cidade
+    - População
+    - Região
+    - Idioma
+    - Moeda
+- 🔄 Conversão automática de resposta para DTOs
+- 🧩 Uso de templates `.st` para prompts reutilizáveis
+- 📦 Collection Postman disponível para testes
+
+## 📋 Pré-requisitos
+
+Antes de executar o projeto, você precisa:
+
+- ☕ Java 25
+- 📦 Maven 3.9+
+- ☁️ Conta no Google Cloud
+- 🔑 Credenciais do Vertex AI (`credentials.json`)
+
+## ⚙️ Configuração
+
+Coloque o arquivo de credenciais em:
+
+```
+src/main/resources/credentials.json
 ```
 
-## Ferramentas e Tecnologias
-
-A aplicação utiliza as versões mais recentes das tecnologias líderes no ecossistema Java:
-
-* **Java 25 LTS**: Versão de longo suporte para a linguagem.
-* **Spring Framework 7**: Base da arquitetura da aplicação.
-* **Spring Boot 4.1.0-SNAPSHOT**: Facilitador de configuração e execução.
-* **Spring AI 2.0.0-M3**: Framework para integração com modelos de IA.
-* **Google Vertex AI Gemini**: Modelo fundacional de IA generativa (Gemini 2.5 Flash).
-* **Spring Web MVC**: Para criação de endpoints REST.
-* **Maven**: Gerenciador de dependências e build.
-
-## Funcionalidades
-
-* **Processamento de Linguagem Natural**: Interface simples para envio de perguntas genéricas ao modelo.
-* **Prompt Templating**: Utilização de arquivos `.st` (StringTemplate) para isolar a lógica de prompts do código Java.
-* **Saída Estruturada (Structured Output)**: Uso de `BeanOutputConverter` para garantir que o modelo retorne JSON válido, mapeado diretamente para Java Records.
-* **Mapeamento de Metadados**: Uso de `@JsonPropertyDescription` para instruir a IA sobre o significado de cada campo no esquema de resposta.
-
-## Configuração e Pré-requisitos
-
-Para executar este projeto, é necessário configurar o acesso ao **Google Cloud Platform (GCP)**.
-
-### Credenciais Google Cloud
-
-1. Crie um projeto no Console do Google Cloud.
-2. Ative a API do Vertex AI.
-3. Crie uma Service Account com permissões de acesso ao Vertex AI.
-4. Gere uma chave JSON para a Service Account e salve-a como `credentials.json` no diretório `src/main/resources/`.
-
-### Propriedades da Aplicação
-
-Certifique-se de que o arquivo `application.yaml` contenha as configurações corretas do seu projeto:
+Configuração no `application.yaml`:
 
 ```yaml
 spring:
@@ -58,100 +58,154 @@ spring:
     vertex:
       ai:
         gemini:
-          project-id: [ PROJECT_ID ]
-          location: [ LOCATION ]
-          credentials-uri: 'classpath:credentials.json'
-          chat:
-            options:
-              model: gemini-2.5-flash
-          transport: REST
+          project-id: seu-project-id
+          location: us-central1
+          credentials-uri: classpath:credentials.json
 ```
 
-## Utilização
-
-Abaixo estão os exemplos de chamadas para os endpoints disponíveis na aplicação.
-
-### 1. Pergunta Genérica
-
-Envia uma pergunta aberta para o modelo de IA.
-
-**Endpoint:** `POST /ask`
-
-**cURL:**
+## ⚙️ Instalação
 
 ```bash
-curl --location 'http://localhost:8080/ask' \
---header 'Content-Type: application/json' \
---data '{
-    "question": "Qual a importância de frameworks de IA para desenvolvedores Java?"
-}'
+# Clone o repositório
+git clone https://github.com/JuhMaran/spring-ai-vertex.git
+
+# Acesse o projeto
+cd spring-ai-vertex
+
+# Compile
+mvn clean install
+
+# Execute
+mvn spring-boot:run
 ```
 
-### 2. Consulta de Capital (Simples)
+A aplicação estará disponível em:
 
-Retorna o nome da capital de um estado ou país específico.
+```
+http://localhost:8080
+```
 
-**Endpoint:** `POST /capital`
+## 🧰 Tecnologias Utilizadas
 
-**cURL:**
+* Java 25
+* Spring Boot 4.1 (Snapshot)
+* Spring AI
+* Google Vertex AI (Gemini)
+* Maven
+
+## 🧪 Como Usar
+
+### Fazer pergunta livre
 
 ```bash
-curl --location 'http://localhost:8080/capital' \
---header 'Content-Type: application/json' \
---data '{
-    "stateOrCountry": "Florida"
-}'
+curl -X POST http://localhost:8080/ask \
+-H "Content-Type: application/json" \
+-d '{"question": "Qual a capital do Brasil?"}'
 ```
 
-### 3. Consulta de Capital com Informações Detalhadas
-
-Utiliza o `BeanOutputConverter` para retornar um objeto detalhado com população, região, idioma e moeda.
-
-**Endpoint:** `POST /capitalWithInfo`
-
-**cURL:**
+### Obter capital
 
 ```bash
-curl --location 'http://localhost:8080/capitalWithInfo' \
---header 'Content-Type: application/json' \
---data '{
-    "stateOrCountry": "Brasil"
-}'
+curl -X POST http://localhost:8080/capital \
+-H "Content-Type: application/json" \
+-d '{"stateOrCountry": "Chile"}'
 ```
 
-**Exemplo de Resposta:**
+### Obter capital com informações completas
 
-```json
-{
-  "city": "Brasília",
-  "population": "Approximately 3.1 million",
-  "region": "Federal District, Central-West Region",
-  "language": "Portuguese",
-  "currency": "Brazilian Real"
-}
+```bash
+curl -X POST http://localhost:8080/capitalWithInfo \
+-H "Content-Type: application/json" \
+-d '{"stateOrCountry": "Brasil"}'
 ```
 
-## Estrutura de Prompts
+## 📦 Collection Postman
 
-O projeto utiliza o conceito de separação de responsabilidades para os prompts, localizados em`src/main/resources/templates/`:
+Uma collection pronta está disponível em:
 
-* `get-capital-prompt.st`: Define a estrutura básica para perguntas sobre capitais.
-* `get-capital-with-info.st`: Define um sistema rigoroso de instruções para que a IA retorne exclusivamente um objeto JSON sem explicações adicionais ou marcações de markdown.
+[Collection](collection)
 
-## Observações Técnicas
+Ela inclui exemplos de:
 
-* **REST Client**: A aplicação está configurada para utilizar transporte REST para comunicação com o Vertex AI.
-* **Snapshot**: O projeto utiliza versões SNAPSHOT do Spring Boot, o que requer a configuração do repositório de snapshots do Spring no `pom.xml`.
-* **Imutabilidade**: Todas as transferências de dados entre camadas são realizadas utilizando Java Records, garantindo imutabilidade e concisão de código.
+* ✔️ Requisições válidas
+* ❌ Erros (500)
+* 📊 Respostas estruturadas
 
----
+## 🧠 Fluxo de Funcionamento
 
-<h2>Juliane Maran</h2>
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Controller
+    participant Service
+    participant Gemini
+    Client ->> Controller: HTTP Request
+    Controller ->> Service: Processa entrada
+    Service ->> Gemini: Envia prompt
+    Gemini -->> Service: Resposta gerada
+    Service -->> Controller: Conversão para DTO
+    Controller -->> Client: JSON Response
+```
 
-<p>
-  Software Architecture & Development
-</p>
+## 🏗️ Arquitetura
 
----
+```mermaid
+flowchart TD
+    A[Client] --> B[Controller]
+    B --> C[VertexAiService]
+    C --> D[Prompt Templates .st]
+    C --> E[Spring AI ChatModel]
+    E --> F[Vertex AI Gemini]
+```
 
-_Este é um projeto experimental focado em explorar as fronteiras da IA generativa com tecnologias Java de ponta._
+## ⚠️ Observações
+
+* 🔐 Necessário configurar credenciais do Google Cloud corretamente
+* ⚠️ Respostas podem variar conforme o modelo Gemini
+* 📡 Dependência de serviço externo (Vertex AI)
+* 🧪 Testes dependem de credenciais válidas
+
+## 📌 Status do Projeto
+
+✅ Concluído
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! 💡
+
+1. Fork do projeto
+2. Crie uma branch:
+
+    ```bash
+    git checkout -b minha-feature
+    ```
+
+3. Commit:
+
+    ```bash
+    git commit -m "feat: nova funcionalidade"
+    ```
+
+4. Push:
+
+    ```bash
+    git push origin minha-feature
+    ```
+
+5. Abra um Pull Request
+
+## ♿ Acessibilidade
+
+* Diagramas feitos com **Mermaid** (compatível com GitHub)
+* Estrutura com headings claros e organizados
+* Uso moderado de emojis para melhor leitura
+* Exemplos práticos com cURL e Postman
+
+## 📄 Licença
+
+Este projeto não possui licença definida no momento.
+
+## 👩‍💻 Autora
+
+Desenvolvido por **Juh Maran**  
+🔗 [https://github.com/JuhMaran](https://github.com/JuhMaran)
